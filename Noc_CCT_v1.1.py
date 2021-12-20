@@ -8,6 +8,11 @@ from flask import Flask
 app = Flask(__name__)
 
 
+@app.route('/lunch')
+def index():
+    data = jturn()
+    return f"<p>{data[0]}</p><p>{data[1]}</p><p>{data[2]}</p>"
+
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
@@ -126,8 +131,10 @@ def jtshoot():
 def jturn():
     Callcenter = ['Ali', 'Masomeh', 'Reza']
     rand_item = random.sample(Callcenter, 3)
+    order_list = []
     for item in rand_item:
-        print(item)
+        order_list.append(item)
+    return order_list
 
 
 def firstfunc():
@@ -141,7 +148,7 @@ def firstfunc():
         print(f'\n{bcolors.Red}You choose poorly! Try again{bcolors.ENDC}\n')
 
 
-firstfunc()
+# firstfunc()
 
-if __name__== '__main__':
+if __name__ == '__main__':
     app.run(debug=True)
