@@ -1,0 +1,21 @@
+<html>
+<head>
+
+</head>
+<body>
+    {% if data %}
+    {{ data }}
+    {% else %}
+    <form action="/salam" method="post">
+        <label for="mydata">INPUT DATA</label>
+        <input type="text" id="mydata" name="mydata">
+        <button type="submit">SUBMIT</button>
+    </form>
+    {% endif %}
+</body>
+
+
+
+
+
+</html>

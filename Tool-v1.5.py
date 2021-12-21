@@ -1,52 +1,63 @@
 import sys
 import os
-domain=input('Please enter the domain/Ip Address: ')
-print('working on {domain}')
-job=list(str(input("what do you want to do? ")))
-def jping():
-    ping=os.system("ping -c 4 " + domain)
-    return ping
-def jtraceroute():
-    traceroute=os.system("traceroute " + domain)
-    return traceroute
-def jdig():
-    dig=os.system("dig " + domain)
-    return dig
-def jwhois():
-    whois=os.system("whois " + domain)
-    return whois
-def jnslookup():
-    nslookup=os.system('nslookup ' + domain)
-    return nslookup
-def jttfb():
-    import time
-    from urllib import request
-    opener = request.build_opener()
-    request = request.Request(domain)
-    request.add_header('user-agent', 'firefox')
-    start = time.time()
-    resp = opener.open(request)
-    resp.read(1)
-    ttfb = time.time() - start
-    print("The TTFirst Byte of " +domain+" is: "+str(ttfb))
-for i in job:
-    if i=='0':
-        jping()
-    elif i=='1':
-        jtraceroute()
-    elif i=='2':
-        jdig()
-    elif i=='3':
-        jwhois()
-    elif i=='4':
-        jnslookup()
-    elif i=='5':
-        domain='https://'+domain
-        jttfb()
+import requests
+import time
+import random
+from flask import Flask
+from markupsafe import escape
+import subprocess
+from flask import render_template
+app = Flask(__name__)
+
+
+@app.route('/lunch')
+def index():
+    data = jturn()
+    return f"<p>{data[0]}</p><p>{data[1]}</p><p>{data[2]}</p>"
+
+
+
+from flask import render_template
+@app.route('/salam')
+def salam():
+    memory = subprocess.Popen(['date'], stdout=subprocess.PIPE)
+    out,error = memory.communicate()
+    return render_template('view.html', out=out, error=error)
+
+
+from __future__ import print_function
+
+@app.route('/button/')
+def button_clicked():
+   print('Hello world!', file = sys.stderr)
+return redirect('/')
+
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
+
+
+def jturn():
+    Callcenter = ['Ali', 'Masomeh', 'Reza']
+    rand_item = random.sample(Callcenter, 3)
+    order_list = []
+    for item in rand_item:
+        order_list.append(item)
+    return order_list
+
+
+def firstfunc():
+    mainfunc = input(
+        f'{bcolors.OKBLUE}"Press"{bcolors.ENDC}{bcolors.WARNING}"1"{bcolors.ENDC}{bcolors.OKBLUE}For Using the Tshoot tool{bcolors.ENDC}\n{bcolors.OKBLUE}Press{bcolors.ENDC}{bcolors.WARNING}"2"{bcolors.OKBLUE}To See whose turn is it{bcolors.ENDC}\n\n{bcolors.OKCYAN}What do you wnant to do?{bcolors.ENDC}')
+    if mainfunc == '1':
+        jtshoot()
+    elif mainfunc == '2':
+        jturn()
     else:
-        print('fuck off')
-        break 
+        print(f'\n{bcolors.Red}You choose poorly! Try again{bcolors.ENDC}\n')
 
 
+# firstfunc()
 
-
+if __name__ == '__main__':
+    app.run(debug=True)

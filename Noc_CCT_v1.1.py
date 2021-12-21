@@ -3,8 +3,9 @@ import os
 import requests
 import time
 import random
-from flask import Flask
-
+from flask import Flask,request
+from flask import render_template
+from markupsafe import escape
 app = Flask(__name__)
 
 
@@ -13,10 +14,32 @@ def index():
     data = jturn()
     return f"<p>{data[0]}</p><p>{data[1]}</p><p>{data[2]}</p>"
 
+
+@app.route('/salam',methods=['GET', 'POST'])
+def salam():
+    if request.method == "POST":
+        mydata = request.form["mydata"]
+        print(mydata)
+        return render_template("index.html",data=mydata)
+    else:
+        return render_template("index.html")
+
+
+@app.route('/tshoot')
+def firstfunc():
+    mainfunc = input(f'{bcolors.OKBLUE}"Press"{bcolors.ENDC}{bcolors.WARNING}"1"{bcolors.ENDC}{bcolors.OKBLUE}For Using the Tshoot tool{bcolors.ENDC}\n{bcolors.OKBLUE}Press{bcolors.ENDC}{bcolors.WARNING}"2"{bcolors.OKBLUE}To See whose turn is it{bcolors.ENDC}\n\n{bcolors.OKCYAN}What do you wnant to do?{bcolors.ENDC}')
+    if mainfunc == '1':
+        jtshoot()
+    elif mainfunc == '2':
+        jturn()
+    else:
+        print(f'\n{bcolors.Red}You choose poorly! Try again{bcolors.ENDC}\n')
+    firstfunc=firstfunc()
+    return firstfunc
+
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
-
 
 class bcolors:
     HEADER = '\033[95m'
